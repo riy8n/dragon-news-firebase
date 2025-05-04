@@ -7,6 +7,12 @@ import {
 import Roots from '../Layouts/Roots';
 import Home from '../Pages/Home/Home';
 import CategoryNews from '../Pages/CategoryNews/CategoryNews';
+import Login from '../Pages/Login/Login';
+import Register from '../Pages/Register/Register';
+import Authentication from '../Layouts/Authentication';
+import NewsDetails from '../Pages/NewsDetails/NewsDetails';
+import PrivateRoutes from '../Provider/PrivateRoutes';
+import Loading from '../Provider/Loading/Loading';
   const router = createBrowserRouter([
     {
       path: "/",
@@ -19,7 +25,8 @@ import CategoryNews from '../Pages/CategoryNews/CategoryNews';
         {
           path:"/category/:id",
           element:<CategoryNews></CategoryNews>,
-          loader:()=>fetch('/news.json')
+          loader:()=>fetch('/news.json'),
+          hydrateFallbackElement:<Loading></Loading>
 
 
         }
@@ -27,12 +34,32 @@ import CategoryNews from '../Pages/CategoryNews/CategoryNews';
     },
     {
       path:'/auth',
-      element: <h2>Authentecaton layout</h2>
+      element: <Authentication></Authentication>,
+      children:[
+        {
+          path:"/auth/login",
+          element:<Login></Login>
+        },
+        {
+          path:"/auth/register",
+          element:<Register></Register>
+        }
+      ]
+
     },
     {
-      path:'/news',
-      element: <h2>Authen news</h2>
+      path:'/news-details/:id',
+      element:<PrivateRoutes>
+         <NewsDetails></NewsDetails>
+      </PrivateRoutes>,
+      loader:()=>fetch("/news.json"),
+      hydrateFallbackElement:<Loading></Loading>
+    },
+    {
+      path:"/*",
+      element: <h2>Error 404</h2>
     }
+
   ]);
 
 

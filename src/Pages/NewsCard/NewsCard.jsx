@@ -10,8 +10,6 @@ const NewsCard = ({ news }) => {
     details,
     rating,
     total_view,
- 
-   
     id,
   } = news;
 
@@ -52,17 +50,28 @@ const NewsCard = ({ news }) => {
       </div>
 
       <div className="p-4 text-sm text-gray-600">
-        <p>
-          {details.length > 200
-            ? details.slice(0, 200) + "..."
-            : details}
-        </p>
-        <Link
-          to={`/news/${id}`}
+        
+          {details.length > 200?(
+              <>
+                 {
+                  details.slice(0, 200)
+                 } ...
+               
+                 <Link
+          to={`/news-details/${id}`}
           className="text-orange-500 font-semibold mt-2 inline-block"
         >
           Read More
         </Link>
+                 
+              </>
+
+          )
+        
+            
+            :( details)}
+       
+      
       </div>
 
       <div className="flex justify-between items-center p-4 border-t text-sm text-gray-600">
